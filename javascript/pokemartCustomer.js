@@ -1,5 +1,6 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
+var Table = require("cli-table2");
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -35,4 +36,26 @@ function start(){
                 break;
         }
     });
+}
+
+function viewInv(){
+    var query = "SELECT * FROM products"
+    connection.query(query,function(err,res){
+        if (err) throw err;
+        var table = new Table({
+            head:["Item ID","Product Name", "Department Name", "Price", "Quantity"]
+            // chars: { 'top': '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
+            //        , 'bottom': '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
+            //        , 'left': '║' , 'left-mid': '╟' , 'mid': '─' , 'mid-mid': '┼'
+            //        , 'right': '║' , 'right-mid': '╢' , 'middle': '│' }
+          });
+        for (i=0; i<res.length;i++){
+            // console.log(res);
+            table.push(
+                [res[i].item_id,res[i].product_name,res[i].department_name,res[i].price,res[i].stock_quantity]
+            );
+        }
+        console.log("\n",table.toString());
+    });
+    start();
 }
