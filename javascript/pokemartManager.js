@@ -49,3 +49,23 @@ function start(){
         }
     });
 }
+
+
+function viewInv(){
+    var query = "SELECT * FROM products"
+    connection.query(query,function(err,res){
+        if (err) throw err;
+        // console.log(res);
+        var table = new Table({head:["Item ID","Product Name", "Dept Name", "Price", "Quantity"]
+            ,colWidths:[10,20,15,15,10]
+        });
+        for (i=0; i<res.length;i++){
+            // console.log(res);
+            table.push(
+                [res[i].item_id,res[i].product_name,res[i].department_name,res[i].price,res[i].stock_quantity]
+            );
+        }
+        console.log("\n"+table.toString());
+        start();
+    });
+}
