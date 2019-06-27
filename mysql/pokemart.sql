@@ -32,3 +32,10 @@ VALUES ("Pokeballs","Equipment",20.99,50),
 ("Surf Mail","General",9.99,15),
 ("Rare Candy Bar","Specialty",25.98, 45),
 ("Revive", "Meds",150.29,10);
+
+INSERT INTO departments(department_id,department_name,over_head_costs)
+VALUES 
+(01,"Equipment",1925),
+(02,"Meds",6350),
+(03,"Specialty",5705),
+(04,"General",5510);
