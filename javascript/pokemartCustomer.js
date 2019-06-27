@@ -17,11 +17,11 @@ connection.connect(function(err){
 });
 
 function start(){
-//     console.log(`     
-//      _   _   _   _   _   _   _   _
-//     / \\ / \\ / \\ / \\ / \\ / \\ / \\ / \\
-//    ( P | o | k | e | M | a | r | t )
-//     \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/`);
+    console.log(`     
+     _   _   _   _   _   _   _   _
+    / \\ / \\ / \\ / \\ / \\ / \\ / \\ / \\
+   ( P | o | k | e | M | a | r | t )
+    \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/`);
     inquirer.prompt({
         type:"rawlist",
         name:"choice",
