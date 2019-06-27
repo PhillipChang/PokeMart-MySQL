@@ -86,3 +86,49 @@ function viewLowInv(){
         start();
     });
 }
+
+function addInv(){
+    inquirer.prompt([
+        {
+        name:"name",
+        type:"input",
+        message:"What is the name of the product you would like to add?"
+    },
+    {
+        name:"dept",
+        type:"list",
+        message:"What department does this fall under?",
+        choices:["Equipment","Meds","Specialty","General"]
+    },
+    {
+        name:"price",
+        type:"input",
+        message:"What is the price per unit?",
+        validate: function(value) {
+            if (isNaN(value) === false) {
+              return true;
+            }
+            return false;
+          }
+    },
+    {
+        name:"qty",
+        type:"input",
+        message:"How many units are there?",
+        validate: function(value) {
+            if (isNaN(value) === false) {
+              return true;
+            }
+            return false;
+          }
+    },
+])
+.then(function(answer){
+    var query = "INSERT INTO products SET ?"
+    connection.query(query,{product_name:answer.name,department_name:answer.dept,price:answer.price.Tofixed(2),stock_quantity:answer.qty},function(err,res){
+        if (err) throw err;
+        console.log("You have successfully added",answer.qty,answer.name);
+        start();
+    });
+});
+}
