@@ -90,6 +90,52 @@ function viewLowInv(){
 function addInv(){
     inquirer.prompt([
         {
+        name:"choice",
+        type:"input",
+        message:"What item would you like to replenish? (Enter Item ID)",
+        validate: function(value) {
+            if (isNaN(value) === false) {
+              return true;
+            }
+            return false;
+          }
+    },
+    {
+        name:"quantity",
+        type:"input",
+        message:"How many would you like to replenish?",
+        validate: function(value) {
+            if (isNaN(value) === false) {
+              return true;
+            }
+            return false;
+          }
+    }
+])
+.then(function(answer){
+    var quantityQuery = "SELECT stock_quantity,item_id,price,product_name FROM products WHERE item_id = ?"
+    connection.query(quantityQuery,[answer.choice],function(error,res){
+        if (error) throw error;
+        var qty = res[0].stock_quantity;
+        var price = res[0].price;
+        var prod = res[0].product_name;
+
+    var query = "UPDATE products SET stock_quantity = ? WHERE item_id = ?";
+    qty += parseInt(answer.quantity);
+    console.log("quantity",qty ,"answer qty" , answer.quantity);
+    connection.query(query,[qty,answer.choice],function(err){
+        if (err) throw err;
+        var total = price * answer.quantity;
+        console.log("You have successfully replenished",answer.quantity,prod,"totalling","$"+total.toFixed(2));
+        });
+        start();
+    });
+});
+}
+
+function addNewProd(){
+    inquirer.prompt([
+        {
         name:"name",
         type:"input",
         message:"What is the name of the product you would like to add?"
