@@ -98,11 +98,11 @@ function buy(){
             console.log("There is not sufficient inventory to meet your needs.");
             }
         else{
-    var query = "UPDATE products SET stock_quantity = ? WHERE item_id = ?";
+    var query = "UPDATE products SET product_sales,stock_quantity = ? WHERE item_id = ?";
     qty -= answer.quantity;
-    connection.query(query,[qty,answer.buyerChoice],function(err){
+    var total = price * answer.quantity;
+    connection.query(query,[total.toFixed(2),qty,answer.buyerChoice],function(err){
         if (err) throw err;
-        var total = price * answer.quantity;
         console.log("You have successfully bought",answer.quantity,prod,"for","$"+total.toFixed(2));
         });
         };
