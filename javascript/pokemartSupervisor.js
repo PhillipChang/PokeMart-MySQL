@@ -39,6 +39,7 @@ function start(){
                 newDept();
                 break;
             case 'Exit':
+                console.log("GoodBye Have a Nice Day! (☞ﾟヮﾟ)☞");
                 connection.end();
                 break;
         }
@@ -56,6 +57,9 @@ function viewProdSales(){
             for (i=0; i<response.length;i++){
                 // console.log(res);
                 var total = parseInt(response[i].total).toFixed(2);
+                if (isNaN(total)){
+                    total = 0;
+                }
                 table.push(
                     [response[i].department_id,response[i].department_name,response[i].over_head_costs,response[i].product_sales,total]
                 );
@@ -63,4 +67,28 @@ function viewProdSales(){
             console.log("\n"+table.toString());
             start();
         });           
+}
+
+function newDept(){
+    inquirer.prompt([
+        {
+        name:"newDept",
+        type:"input",
+        message:"What is the name of the department?",
+    },
+    {
+        name:"cost",
+        type:"input",
+        message:"What is the overhead cost of the department?",
+    }
+])
+.then(function(answer){
+    var query = "INSERT INTO departments SET ?"
+    connection.query(query,{department_name:answer.newDept,over_head_costs:answer.cost},function(error,res){
+        if (error) throw error;
+        console.log(res.affectedRows + " product inserted!\n");
+        console.log("ADDED Department",answer.newDept,"!!!");
+    });
+    start();
+});
 }
