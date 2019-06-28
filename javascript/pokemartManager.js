@@ -57,12 +57,10 @@ function viewInv(){
     var query = "SELECT * FROM products"
     connection.query(query,function(err,res){
         if (err) throw err;
-        // console.log(res);
         var table = new Table({head:["Item ID","Product Name", "Dept Name", "Price", "Quantity"]
             ,colWidths:[10,20,15,15,10]
         });
         for (i=0; i<res.length;i++){
-            // console.log(res);
             table.push(
                 [res[i].item_id,res[i].product_name,res[i].department_name,res[i].price,res[i].stock_quantity]
             );
@@ -124,11 +122,10 @@ function addInv(){
 
     var query = "UPDATE products SET stock_quantity = ? WHERE item_id = ?";
     qty += parseInt(answer.quantity);
-    console.log("quantity",qty ,"answer qty" , answer.quantity);
     connection.query(query,[qty,answer.choice],function(err){
         if (err) throw err;
         var total = price * answer.quantity;
-        console.log("You have successfully replenished",answer.quantity,prod,"totalling","$"+total.toFixed(2));
+        console.log("You have successfully replenished",answer.quantity,prod,"totaling","$"+total.toFixed(2));
         });
     });
     start();
@@ -136,6 +133,10 @@ function addInv(){
 }
 
 function addNewProd(){
+    var query = "SELECT * FROM departments"
+    connection.query(query,function(err,res){
+        if (err) throw err;
+
     inquirer.prompt([
         {
         name:"name",
@@ -146,7 +147,13 @@ function addNewProd(){
         name:"dept",
         type:"list",
         message:"What department does this fall under?",
-        choices:["Equipment","Meds","Specialty","General"]
+        choices:function(){
+            var depts = [];
+                for (i=0 ; i<res.length ; i++){
+                    depts.push(res[i].department_name);
+                }
+            return depts;
+        }
     },
     {
         name:"price",
@@ -173,10 +180,13 @@ function addNewProd(){
 ])
 .then(function(answer){
     var query = "INSERT INTO products SET ?"
-    connection.query(query,{product_name:answer.name,department_name:answer.dept,price:answer.price.Tofixed(2),stock_quantity:answer.qty},function(err,res){
+    var mgrPrice = parseInt(answer.price).toFixed(2);
+    connection.query(query,{product_name:answer.name,department_name:answer.dept,price:mgrPrice,stock_quantity:answer.qty},function(err,res){
         if (err) throw err;
         console.log("You have successfully added",answer.qty,answer.name);
         start();
     });
 });
+});
 }
+

@@ -88,7 +88,7 @@ function newDept(){
         if (error) throw error;
         console.log(res.affectedRows + " department inserted!\n");
         console.log("ADDED Department",answer.newDept,"!!!");
+        start();
     });
-    start();
 });
 }

@@ -103,6 +103,7 @@ function buy(){
         if (answer.quantity > qty){
             console.log("There is not sufficient inventory to meet your needs.");
             }
+            else{
     var query = "UPDATE products SET product_sales = ?,stock_quantity = ? WHERE item_id = ?";
     qty -= answer.quantity;
     var total = price * answer.quantity;
@@ -111,9 +112,11 @@ function buy(){
         if (err) throw err;
         console.log("You have successfully bought",answer.quantity,prod,"for","$"+total);
         });
+        }
     });
     start();
 });
+
 }
 
 function bored(){
