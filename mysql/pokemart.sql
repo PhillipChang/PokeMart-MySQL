@@ -15,7 +15,7 @@ CREATE TABLE products (
 );
 
 CREATE TABLE departments (
-    department_id INT NOT NULL,
+    department_id INT NOT NULL AUTO_INCREMENT,
     department_name VARCHAR(50) NULL,
     over_head_costs DECIMAL(10,2) NULL,
     PRIMARY KEY(department_id)
@@ -33,9 +33,9 @@ VALUES ("Pokeballs","Equipment",20.99,50),
 ("Rare Candy Bar","Specialty",25.98, 45),
 ("Revive", "Meds",150.29,10);
 
-INSERT INTO departments(department_id,department_name,over_head_costs)
+INSERT INTO departments(department_name,over_head_costs)
 VALUES 
-(01,"Equipment",1925),
-(02,"Meds",6350),
-(03,"Specialty",5705),
-(04,"General",5510);
+("Equipment",100),
+("Meds",150),
+("Specialty",200),
+("General",100);
