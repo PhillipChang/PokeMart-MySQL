@@ -17,6 +17,7 @@ connection.connect(function(err){
 });
 
 function start(){
+    setTimeout(function(){
     console.log(`     
      _   _   _   _   _   _   _   _
     / \\ / \\ / \\ / \\ / \\ / \\ / \\ / \\
@@ -41,6 +42,7 @@ function start(){
                 break;
         }
     });
+    },100)
 }
 
 function viewInv(){
@@ -88,25 +90,24 @@ function buy(){
     }
 ])
 .then(function(answer){
-    var quantityQuery = "SELECT stock_quantity,item_id,price,product_name FROM products WHERE item_id = ?"
+    var quantityQuery = "SELECT stock_quantity,item_id,price,product_name FROM products WHERE item_id = ?";
     connection.query(quantityQuery,[answer.buyerChoice],function(error,res){
         if (error) throw error;
         var qty = res[0].stock_quantity;
         var price = res[0].price;
         var prod = res[0].product_name;
-        if (answer.quantity >= qty){
+        if (answer.quantity > qty){
             console.log("There is not sufficient inventory to meet your needs.");
             }
-        else{
-    var query = "UPDATE products SET product_sales,stock_quantity = ? WHERE item_id = ?";
+    var query = "UPDATE products SET product_sales = ?,stock_quantity = ? WHERE item_id = ?";
     qty -= answer.quantity;
     var total = price * answer.quantity;
-    connection.query(query,[total.toFixed(2),qty,answer.buyerChoice],function(err){
+    total = total.toFixed(2);
+    connection.query(query,[total,qty,answer.buyerChoice],function(err){
         if (err) throw err;
-        console.log("You have successfully bought",answer.quantity,prod,"for","$"+total.toFixed(2));
+        console.log("You have successfully bought",answer.quantity,prod,"for","$"+total);
         });
-        };
-        start();
     });
+    start();
 });
 }

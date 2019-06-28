@@ -18,6 +18,7 @@ connection.connect(function(err){
 
 
 function start(){
+    setTimeout(function(){
     console.log(`     
      _   _   _   _   _   _   _   _
     / \\ / \\ / \\ / \\ / \\ / \\ / \\ / \\
@@ -48,6 +49,7 @@ function start(){
                 break;
         }
     });
+},100) 
 }
 
 
@@ -128,8 +130,8 @@ function addInv(){
         var total = price * answer.quantity;
         console.log("You have successfully replenished",answer.quantity,prod,"totalling","$"+total.toFixed(2));
         });
-        start();
     });
+    start();
 });
 }
 

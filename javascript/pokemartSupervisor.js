@@ -18,6 +18,7 @@ connection.connect(function(err){
 
 
 function start(){
+    setTimeout(function(){
     console.log(`     
      _   _   _   _   _   _   _   _
     / \\ / \\ / \\ / \\ / \\ / \\ / \\ / \\
@@ -42,4 +43,24 @@ function start(){
                 break;
         }
     });
+},100)
+}
+
+function viewProdSales(){
+        var query = "SELECT department_id,departments.department_name,product_sales,over_head_costs,(product_sales - over_head_costs) AS total FROM departments INNER JOIN products ON departments.department_name=products.department_name GROUP BY department_name";
+        connection.query(query,function(err,response){
+            if (err) throw err;        
+            var table = new Table({head:["Dept ID","Dept Name", "Overhead Cost", "Product Sales","Total Profit/Loss"]
+                ,colWidths:[10,20,15,15,20]
+            });
+            for (i=0; i<response.length;i++){
+                // console.log(res);
+                var total = parseInt(response[i].total).toFixed(2);
+                table.push(
+                    [response[i].department_id,response[i].department_name,response[i].over_head_costs,response[i].product_sales,total]
+                );
+            }
+            console.log("\n"+table.toString());
+            start();
+        });           
 }
