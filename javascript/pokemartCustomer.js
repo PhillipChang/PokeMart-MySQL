@@ -113,10 +113,9 @@ function buy(){
         console.log("You have successfully bought",answer.quantity,prod,"for","$"+total);
         });
         }
+        start();
     });
-    start();
 });
-
 }
 
 function bored(){
