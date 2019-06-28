@@ -27,7 +27,7 @@ function start(){
         type:"rawlist",
         name:"choice",
         message: "How may I help you?",
-        choices:["View Inventory","Buy","Exit"]
+        choices:["View Inventory","Buy","Bored?","Exit"]
     })
     .then(function(answer){
         switch(answer.choice){
@@ -37,7 +37,11 @@ function start(){
             case 'Buy':
                 buy();
                 break;
+            case 'Bored?':
+                bored();
+                break;
             case 'Exit':
+                console.log("GoodBye Come Back Again Soon!")
                 connection.end();
                 break;
         }
@@ -110,4 +114,9 @@ function buy(){
     });
     start();
 });
+}
+
+function bored(){
+    console.log("Here is a neat magic trick","(⊃ ｡•́‿ •̀｡)⊃ ━☆ﾟ.*･｡ﾟ")
+    start();
 }

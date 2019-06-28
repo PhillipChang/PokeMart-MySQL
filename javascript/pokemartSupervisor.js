@@ -86,7 +86,7 @@ function newDept(){
     var query = "INSERT INTO departments SET ?"
     connection.query(query,{department_name:answer.newDept,over_head_costs:answer.cost},function(error,res){
         if (error) throw error;
-        console.log(res.affectedRows + " product inserted!\n");
+        console.log(res.affectedRows + " department inserted!\n");
         console.log("ADDED Department",answer.newDept,"!!!");
     });
     start();
